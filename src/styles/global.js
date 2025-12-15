@@ -11,7 +11,7 @@ export const global = css`
         font-size: 16px;
     }
 
-    body {
+    body, #root {
         margin: 0;
         height: 100vh;
     }
