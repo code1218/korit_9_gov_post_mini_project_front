@@ -77,7 +77,7 @@ export const contentInputBox = css`
         border-radius: 4px;
         padding: 5px 10px;
         width: 100%;
-        height: 100px;
+        height: 80px;
         resize: none;
         font-size: 15px;
         color: #222222;
@@ -86,5 +86,71 @@ export const contentInputBox = css`
 `;
 
 export const uploadBox = css`
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px dashed #cccccc;
+    border-radius: 4px;
+    padding: 10px;
+    color: #222222;
+    cursor: pointer;
+
+    & > button {
+        margin: 10px 0 0;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
 `;
+
+export const imageListBox = css`
+    display: flex;
+    gap: 5px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%;
+    height: 90px;
+    background-color: #fafafa;
+    overflow-x: auto;
+    overflow-y: hidden;
+`;
+
+export const preview = (url) => css`
+    flex-shrink: 0;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    width: 70px;
+    height: 70px;
+    background-image: url(${url});
+    background-position: center;
+    background-size: cover;
+
+    &:not(:hover) > div {
+        opacity: 0;
+    }
+
+    & > div {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        border: 1px solid #dbdbdb;
+        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        color: #ffffff;
+        background-color: #00000066;
+        cursor: pointer;
+    }
+`

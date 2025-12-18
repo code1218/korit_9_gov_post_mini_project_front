@@ -5,10 +5,16 @@ import { useMeQuery } from "../../queries/usersQueries";
 import Loading from "../common/Loading";
 import Select from "react-select";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { IoIosClose } from "react-icons/io";
+import { useRef } from "react";
 
 function AddPostModal({isOpen, onRequestClose, layoutRef}) {
-
+    const imageListBoxRef = useRef();
     const {isLoading, data} = useMeQuery();
+
+    const handleOnWheel = (e) => {  
+        imageListBoxRef.current.scrollLeft += e.deltaY;
+    }
 
     if (isLoading) {
         return <Loading />
@@ -64,7 +70,27 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
                         <div>Please post your story.</div>
                         <button>Add Image</button>
                     </div>
-                    <div></div>
+                    <div css={s.imageListBox} ref={imageListBoxRef} onWheel={handleOnWheel}>
+
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                        <div css={s.preview()}>
+                            <div><IoIosClose /></div>
+                        </div>
+                    </div>
                 </main>
                 <footer>
                     <button css={s.postButton}>Post</button>
