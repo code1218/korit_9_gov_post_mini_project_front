@@ -7,8 +7,11 @@ import Select from "react-select";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
 import { useRef, useState } from "react";
+import { createPost } from "../../apis/posts/postsApi";
 
 function AddPostModal({isOpen, onRequestClose, layoutRef}) {
+    const [ visibilityOption, setVisibilityOption ] = useState({label: "Public", value: "Public"});
+    const [ textareaValue, setTextareaValue ] = useState("");
     const [ uploadImages, setUploadImages ] = useState([]);
     const imageListBoxRef = useRef();
     const {isLoading, data} = useMeQuery();
@@ -44,6 +47,26 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
             .then(result => {
                 setUploadImages([...uploadImages, ...result]);
             });
+        }
+    }
+
+    const handleImageDeleteOnClick = (index) => {
+        const deletedImages = uploadImages.filter((img, imgIndex) => imgIndex !== index);
+        setUploadImages(deletedImages);
+    }
+
+    const handlePostSubmitOnClick = async () => {
+        const formData = new FormData();
+        formData.append("visibility", visibilityOption.value);
+        formData.append("content", textareaValue);
+        for (let img of uploadImages) {
+            formData.append("files", img.file);
+        }
+        try {
+            await createPost(formData);
+            alert("작성 완료");
+        } catch(error) {
+            alert("작성 실패");
         }
     }
 
@@ -92,9 +115,11 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
                                 label: "Follow",
                                 value: "Follow"
                             },
-                        ]} />
+                        ]}
+                        value={visibilityOption}
+                        onChange={(option) => setVisibilityOption(option)} />
                     <div css={s.contentInputBox}>
-                        <textarea></textarea>
+                        <textarea value={textareaValue} onChange={(e) => setTextareaValue(e.target.value)}></textarea>
                     </div>
                     <div css={s.uploadBox} onClick={handleFileLoadOnClick}>
                         <IoCloudUploadOutline />
@@ -103,17 +128,16 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
                     </div>
                     <div css={s.imageListBox} ref={imageListBoxRef} onWheel={handleOnWheel}>
                         {
-                            uploadImages.map(img => (
+                            uploadImages.map((img, index) => (
                                 <div css={s.preview(img.dataURL)}>
-                                    <div><IoIosClose /></div>
+                                    <div onClick={() => handleImageDeleteOnClick(index)}><IoIosClose /></div>
                                 </div>
                             ))
                         }
-                        
                     </div>
                 </main>
                 <footer>
-                    <button css={s.postButton}>Post</button>
+                    <button css={s.postButton} onClick={handlePostSubmitOnClick}>Post</button>
                     <button onClick={onRequestClose}>Cancel</button>
                 </footer>
             </div>
