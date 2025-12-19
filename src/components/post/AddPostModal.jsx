@@ -66,7 +66,7 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
             await createPost(formData);
             alert("작성 완료");
         } catch(error) {
-            alert("작성 실패");
+            alert(error.response.data.message);
         }
     }
 
