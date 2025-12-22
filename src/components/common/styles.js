@@ -52,6 +52,10 @@ export const sideBarLayout = css`
     display: flex;
     width: 100%;
     height: 100%;
+
+    & > div {
+        flex-grow: 1;
+    }
 `;
 
 export const sideBarContainer = css`
