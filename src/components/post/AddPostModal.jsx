@@ -8,6 +8,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
 import { useRef, useState } from "react";
 import { createPost } from "../../apis/posts/postsApi";
+import { useCreatePostMutation } from "../../mutations/postMutations";
 
 function AddPostModal({isOpen, onRequestClose, layoutRef}) {
     const [ visibilityOption, setVisibilityOption ] = useState({label: "Public", value: "Public"});
@@ -15,6 +16,7 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
     const [ uploadImages, setUploadImages ] = useState([]);
     const imageListBoxRef = useRef();
     const {isLoading, data} = useMeQuery();
+    const createPostMutation = useCreatePostMutation();
 
     const handleOnWheel = (e) => {  
         imageListBoxRef.current.scrollLeft += e.deltaY;
@@ -63,8 +65,9 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
             formData.append("files", img.file);
         }
         try {
-            await createPost(formData);
+            await createPostMutation.mutateAsync(formData);
             alert("작성 완료");
+            onRequestClose();
         } catch(error) {
             alert(error.response.data.message);
         }
@@ -96,6 +99,9 @@ function AddPostModal({isOpen, onRequestClose, layoutRef}) {
         parentSelector={() => layoutRef.current}
         appElement={layoutRef.current}
         ariaHideApp={false}>
+            {
+                createPostMutation.isPending && <Loading />
+            }
             <div css={s.modalLayout}>
                 <header>
                     <h2>Add a Post</h2>

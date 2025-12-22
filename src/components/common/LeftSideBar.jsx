@@ -43,7 +43,7 @@ function LeftSideBar({children}) {
             {children}
         </div>
         {
-            !!layoutRef.current && 
+            !!layoutRef.current && addPostModalOpen &&
             <AddPostModal 
                 isOpen={addPostModalOpen} 
                 onRequestClose={addPostModalClose}
