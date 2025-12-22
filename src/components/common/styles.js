@@ -14,6 +14,7 @@ export const frame = css`
     border: 3px solid #747474;
     border-radius: 30px;
     padding: 30px;
+    min-width: 1000px;
     width: 1000px;
     height: 650px;
     background-color: #000000;

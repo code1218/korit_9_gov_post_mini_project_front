@@ -9,6 +9,9 @@ export const layout = css`
 `;
 
 export const feedContainer = css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
     width: 65%;
     overflow-y: auto;
@@ -27,13 +30,20 @@ export const followInfoContainer = css`
 
 export const feedItemContainer = css`
     margin: 10px;
+    box-sizing: border-box;
     border-radius: 8px;
     padding: 10px;
+    width: 400px;
     background-color: #ffffff;
     box-shadow: 0 0 10px #00000066;
+
     & > header {
         display: flex;
         height: 40px;
+    }
+
+    & > main {
+
     }
 `;
 
@@ -65,4 +75,25 @@ export const userInfo = css`
         font-size: 10px;
         color: #888888;
     }
+`;
+
+export const feedImageContainer = css`
+    & .slick-prev {
+        left: 25px;
+    }
+
+    & .slick-next {
+        right: 25px;
+    }
+`;
+
+export const feedContentContainer = css`
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: #222222;
 `;
