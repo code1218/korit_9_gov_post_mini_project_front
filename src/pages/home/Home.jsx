@@ -25,20 +25,17 @@ function Home() {
                         </header>
                         <main>
                             <div css={s.feedImageContainer}>
-                                <Slider dots={true}
+                                <Slider
                                     infinite={true}
                                     speed={500}
                                     slidesToShow={1}
                                     slidesToScroll={1}>
-                                        <div>
-                                            <h1>1</h1>
-                                        </div>
-                                        <div>
-                                            <h1>2</h1>
-                                        </div>
-                                        <div>
-                                            <h1>3</h1>
-                                        </div>
+                                        {
+                                            feed.imageFiles.map(file => (
+                                                <div css={s.feedImage("http://localhost:8080/image" + file.filePath)}>
+                                                </div>
+                                            ))
+                                        }
                                 </Slider>
                             </div>
                             <div css={s.feedContentContainer}>
