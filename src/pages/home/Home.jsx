@@ -24,20 +24,23 @@ function Home() {
                             </div>
                         </header>
                         <main>
-                            <div css={s.feedImageContainer}>
-                                <Slider
-                                    infinite={true}
-                                    speed={500}
-                                    slidesToShow={1}
-                                    slidesToScroll={1}>
-                                        {
-                                            feed.imageFiles.map(file => (
-                                                <div css={s.feedImage("http://localhost:8080/image" + file.filePath)}>
-                                                </div>
-                                            ))
-                                        }
-                                </Slider>
-                            </div>
+                            {
+                                feed.imageFiles && 
+                                <div css={s.feedImageContainer}>
+                                    <Slider
+                                        infinite={true}
+                                        speed={500}
+                                        slidesToShow={1}
+                                        slidesToScroll={1}>
+                                            {
+                                                feed.imageFiles.map(file => (
+                                                    <div css={s.feedImage("http://localhost:8080/image" + file.filePath)}>
+                                                    </div>
+                                                ))
+                                            }
+                                    </Slider>
+                                </div>
+                            }
                             <div css={s.feedContentContainer}>
                                 {feed.content}
                             </div>
