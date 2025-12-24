@@ -9,9 +9,10 @@ import { useEffect, useRef, useState } from "react";
 import { FadeLoader } from "react-spinners";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
+import Comment from "../../components/comment/Comment";
 
 function Home() {
-    const [ commentOpen, setCommentOpen ] = useState(false);
+    const [ commentOpen, setCommentOpen ] = useState(0);
     const { isLoading, isFetching, data, hasNextPage, fetchNextPage } = useGetFeeds();
     const loadMoreRef = useRef();
 
@@ -26,15 +27,15 @@ function Home() {
         observer.observe(loadMoreRef.current);
     }, [hasNextPage]);
 
-    const handleCommentOnClick = () => {
-        setCommentOpen(!commentOpen);
+    const handleCommentOnClick = (postId) => {
+        setCommentOpen(commentOpen === postId ? 0 : postId);
     }
 
     return <div css={s.layout}>
         <div css={s.feedContainer(commentOpen)}>
             {
                 (isLoading && <Loading />) || data.pages.map(feeds => feeds.data.contents.map(feed => (
-                    <div key={feed.feedId} css={s.feedItemContainer}>
+                    <div key={feed.postId} css={s.feedItemContainer}>
                         <header>
                             <div css={s.profileImage(feed.user?.imgUrl)}></div>
                             <div css={s.userInfo}>
@@ -66,7 +67,7 @@ function Home() {
                         </main>
                         <footer>
                             <div>{false ? <IoMdHeart /> : <IoMdHeartEmpty />}</div>
-                            <div onClick={handleCommentOnClick}><IoChatbubbleOutline /></div>
+                            <div onClick={() => handleCommentOnClick(feed.postId)}><IoChatbubbleOutline /></div>
                         </footer>
                     </div>
                 )))
@@ -78,7 +79,10 @@ function Home() {
             </div>
         </div>
         <div css={s.commentContainer(commentOpen)}>
-
+            {
+                !!commentOpen &&
+                <Comment postId={commentOpen} />
+            }
         </div>
         <div css={s.followInfoContainer}>
 
