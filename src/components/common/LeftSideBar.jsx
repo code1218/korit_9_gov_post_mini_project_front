@@ -8,12 +8,14 @@ import { useMeQuery } from "../../queries/usersQueries";
 import AddPostModal from "../post/AddPostModal";
 import { useEffect, useRef, useState } from "react";
 import ProfileModal from "../profile/ProfileModal";
+import { RiChatSmileAiLine } from "react-icons/ri";
+import OpenaiApiModal from "../openai/OpenaiApiModal";
 
 function LeftSideBar({children}) {
     const location = useLocation();
     const {pathname} = location;
     const [ addPostModalOpen, setAddPostModalOpen ] = useState(false);
-    const [ profileModalOpen, setProfileModalOpen ] = useState(false);
+    const [ openaiModalOpen, setOpenaiModalOpen ] = useState(false);
     const [ homeRefresh, setHomeRefresh ] = useState(false);
     const layoutRef = useRef();
 
@@ -24,6 +26,18 @@ function LeftSideBar({children}) {
             setHomeRefresh(false);
         }
     }, [homeRefresh]);
+    
+    const handleEscKey = (e) => {
+        if (e.key === "Escape" && openaiModalOpen) {
+            openaiModalClose();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleEscKey);
+        return () => document.removeEventListener("keydown", handleEscKey);
+    }, [handleEscKey]);
+
 
     const handleAddPostModalOpenOnClick = () => {
         setAddPostModalOpen(true);
@@ -33,13 +47,14 @@ function LeftSideBar({children}) {
         setAddPostModalOpen(false);
     }
 
-    const handleProfileModalOpenOnClick = () => {
-        setProfileModalOpen(true);
+    const handleOpenaiModalOpenOnClick = () => {
+        setOpenaiModalOpen(true);
     }
 
-    const profileModalClose = () => {
-        setProfileModalOpen(false);
+    const openaiModalClose = () => {
+        setOpenaiModalOpen(false);
     }
+
 
     return <div css={s.sideBarLayout} ref={layoutRef}>
         <aside css={s.sideBarContainer}>
@@ -51,7 +66,6 @@ function LeftSideBar({children}) {
                 {
                     isLoading || <Link to={"/" + data.data.nickname}><li css={s.menuListItem(decodeURI(pathname)=== "/" + data.data.nickname)}><div><div css={s.profileImg(data.data.imgUrl)}></div></div>{data.data.nickname}</li></Link>
                 }
-                <Link><li css={s.menuListItem(false)} onClick={handleProfileModalOpenOnClick}><div><IoAddCircleOutline /></div>사용자 정보</li></Link>
             </ul>
             <div>
                 <Link to={"/logout"}>Logout</Link>
@@ -66,13 +80,13 @@ function LeftSideBar({children}) {
                 layoutRef={layoutRef}
                 setHomeRefresh={setHomeRefresh} />
         }
-        {
-            !!layoutRef.current && profileModalOpen &&
-            <ProfileModal 
-                isOpen={profileModalOpen} 
-                onRequestClose={profileModalClose}
-                layoutRef={layoutRef} />
-        }
+        <div css={s.aiChat} onClick={handleOpenaiModalOpenOnClick}><RiChatSmileAiLine /></div>
+        <div css={s.aiChatLayout(openaiModalOpen)}>
+            <div css={s.aiChatContainer}>
+                <OpenaiApiModal />
+            </div>
+            <button css={s.aiChatClose} onClick={openaiModalClose}>닫기</button>
+        </div>
     </div>
 }
 

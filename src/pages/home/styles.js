@@ -143,7 +143,7 @@ export const commentContainer = (commentOpen) => css`
     box-sizing: border-box;
     border-radius: 8px;
     width: 260px;
-    height: 540px;
+    height: 490px;
     box-shadow: 0 0 10px #00000066;
     background-color: #ffffff;
     overflow: hidden;

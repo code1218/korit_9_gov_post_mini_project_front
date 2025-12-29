@@ -14,7 +14,7 @@ export const commentItemList = css`
     border-width: 2px 0;
     margin-bottom: 20px;
     padding-left: 5px;
-    height: 400px;
+    height: 350px;
     overflow-y: scroll;
 `;
 
